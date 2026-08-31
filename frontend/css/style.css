@@ -1,0 +1,260 @@
+/* ============ 全局重置与背景 ============ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {  /* 页面背景渐变 */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 30px 20px;
+}
+
+/* .container 上传页内容容器 */
+.container { max-width: 500px; margin: 0 auto; }
+
+/* .upload-box 上传卡片主体 */
+.upload-box {
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.2);
+    padding: 45px 35px;
+    text-align: center;
+}
+
+/* h1 标题“直链文件传输助手” */
+h1 {
+    color: #2d3748;
+    font-size: 26px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+/* .subtitle 副标题说明文字 */
+.subtitle {
+    color: #718096;
+    font-size: 14px;
+    margin-bottom: 35px;
+}
+
+/* #uploadArea 点击/拖拽上传区域 */
+#uploadArea {
+    border: 2px dashed #ddd;
+    border-radius: 12px;
+    padding: 45px 25px;
+    background: #fafafa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 25px;
+}
+#uploadArea:hover, #uploadArea.dragover {  /* 悬停/拖入高亮 */
+    border-color: #667eea;
+    background: #f0f4ff;
+}
+
+/* .upload-icon 区域内“+”号图标 */
+.upload-icon {
+    width: 65px;
+    height: 65px;
+    margin: 0 auto 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: white;
+}
+
+/* .upload-text 主提示文字“点击或拖拽...” */
+.upload-text {
+    color: #4a5568;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* .upload-hint 副提示文字“支持所有格式...” */
+.upload-hint {
+    color: #999;
+    font-size: 13px;
+}
+
+#fileInput { display: none; }  /* 隐藏原生文件输入框 */
+
+/* .progress-container 进度条容器（默认隐藏） */
+.progress-container {
+    display: none;
+    margin-bottom: 20px;
+}
+
+/* .progress-bar 进度条轨道 */
+.progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #eee;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* .progress-fill 进度条填充 */
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    width: 0%;
+    transition: width 0.3s ease;
+}
+
+/* .progress-text 进度文字 + 取消按钮 */
+.progress-text {
+    text-align: left;
+    color: #666;
+    font-size: 13px;
+    margin-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* .cancel-btn 取消上传按钮 */
+.cancel-btn {
+    background: #ffebee;
+    color: #c62828;
+    border: none;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+.cancel-btn:hover {
+    background: #ffcdd2;
+}
+
+/* .uploaded-info 已选文件信息块（默认隐藏） */
+.uploaded-info {
+    display: none;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+.uploaded-info p {  /* 文件名/大小行 */
+    margin: 5px 0;
+    font-size: 13px;
+    color: #555;
+    white-space: nowrap;   /* 整行禁止换行，避免文件名过长时 <strong> 与文件名分到两行 */
+    overflow: hidden;      /* 裁掉溢出 */
+}
+/* #fileName 文件名单行省略号（悬停通过 HTML title 原生 tooltip 显示完整名） */
+#fileName {
+    display: inline-block;
+    max-width: 280px;        /* 扣除 strong 占位后剩余空间 */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+
+/* .result 上传结果区（默认隐藏） */
+.result {
+    display: none;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.result.success {  /* 成功态 */
+    background: #e8f5e9;
+    border: 1px solid #c8e6c9;
+}
+.result.error {  /* 失败态 */
+    background: #ffebee;
+    border: 1px solid #ffcdd2;
+}
+
+/* .result-title 结果标题（成功/失败） */
+.result-title {
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+.result.success .result-title { color: #2e7d32; }
+.result.error .result-title { color: #c62828; }
+
+/* .download-url 直链下载地址展示（单行，超出省略号） */
+.download-url {
+    background: white;
+    padding: 12px;
+    border-radius: 6px;
+    white-space: nowrap;       /* 单行显示 */
+    overflow: hidden;          /* 溢出隐藏 */
+    text-overflow: ellipsis;   /* 末尾省略号 */
+    font-family: monospace;
+    font-size: 13px;
+    color: #667eea;
+    margin-top: 10px;
+    text-align: left;
+}
+
+/* .copy-btn 复制链接按钮 */
+.copy-btn {
+    margin-top: 10px;
+    padding: 10px 24px;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+.copy-btn:hover { background: #5a6fd6; }
+.copy-btn.copied { background: #2e7d32; }  /* 复制成功态 */
+
+/* .nav-links 底部导航（文件管理入口） */
+.nav-links {
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+.nav-links a {
+    color: #667eea;
+    text-decoration: none;
+    font-size: 14px;
+}
+.nav-links a:hover { text-decoration: underline; }
+
+/* .icon-check 成功对勾图标 */
+.icon-check {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #2e7d32;
+    border-radius: 50%;
+    position: relative;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+.icon-check::after {  /* 对勾由边框旋转得到 */
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: -2px;
+    width: 4px;
+    height: 10px;
+    border: solid #2e7d32;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* .icon-error 失败感叹号图标 */
+.icon-error {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid #c62828;
+    border-radius: 50%;
+    position: relative;
+    vertical-align: middle;
+    margin-right: 5px;
+    font-size: 10px;
+    color: #c62828;
+    line-height: 14px;
+    text-align: center;
+}

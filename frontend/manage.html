@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件管理 - 直链文件传输助手</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <link rel="stylesheet" href="css/manage.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📁 文件管理</h1>
+            <a href="index.html">返回上传</a>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value" id="statTotal">-</div>
+                <div class="stat-label">文件总数</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">10 GB</div>
+                <div class="stat-label">单文件上限</div>
+            </div>
+        </div>
+
+        <div class="file-list">
+            <div class="file-list-header">
+                <div>文件ID</div>
+                <div>文件名</div>
+                <div>大小</div>
+                <div>MD5</div>
+                <div>下载次数</div>
+                <div>上传时间</div>
+                <div>操作</div>
+            </div>
+            <div id="fileListBody"></div>
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">链接已复制到剪贴板</div>
+
+    <script src="js/manage.js"></script>
+</body>
+</html>
