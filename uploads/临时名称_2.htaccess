@@ -1,0 +1,15 @@
+# 拒绝所有 HTTP 直接访问 uploads 目录及其下文件，
+# 强制下载走 /download/<fileId>/<fileName> 路由（由 backend/download.php 处理，
+# 才能正确校验文件存在并累加下载次数）。
+# 兼容 Apache 2.2 与 2.4，用 IfModule 条件判断避免指令未定义时报 500：
+
+# Apache 2.4：mod_authz_core 存在时使用新语法
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+
+# Apache 2.2：mod_authz_core 不存在时回退到旧语法
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>

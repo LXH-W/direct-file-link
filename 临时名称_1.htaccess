@@ -1,0 +1,13 @@
+# 直链文件传输助手 - Apache 重写规则
+
+RewriteEngine On
+RewriteBase /
+
+# 下载路径不对 PHP 输出做 gzip 压缩：
+#   Content-Length 声明的是未压缩大小，若被压缩会导致浏览器
+#   接收字节数小于声明值 → 误判为"文件不完整/损坏"。
+SetEnvIf Request_URI "^/download/" no-gzip=1 dont-vary=1
+
+# /download/<fileId>/<fileName>  →  backend/download.php
+# fileId 允许 12~16 位字母数字（generateUniqueFileId 冲突时会加长到 16 位）
+RewriteRule ^download/([a-zA-Z0-9]{12,16})/(.*)$ backend/download.php [L]
